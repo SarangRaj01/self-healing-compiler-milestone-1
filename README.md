@@ -16,47 +16,43 @@
 
 <br/>
 
-<!-- ==================== ANIMATED MONOCHROME STICKMAN STORY ==================== -->
+<!-- ==================== CLEAN MONOCHROME STICKMAN ANIMATION ==================== -->
 <p align="center">
-  <img src="assets/comic_story.svg" alt="The Stickman Chronicles: Traditional Compiler vs Self-Healing Compiler" width="100%" />
+  <img src="assets/stickman_clean.svg" alt="SHC Runtime Protocol: Stickman Bounds Verification Animation" width="100%" />
 </p>
 
 </div>
 
 ---
 
-## 📖 The Stickman Story: What is Actually Happening in This Project?
+## ⚡ Technical Overview & Working Mechanism
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────┐
-│                             ACT 1: THE REGULAR COMPILER                          │
+│                   SCENARIO A: UNPROTECTED RUNTIME EXECUTION                      │
 ├──────────────────────────────────────────────────────────────────────────────────┤
-│ 1. The compiler (GCC/Clang) compiles your code, says "I'm done!", and goes to    │
-│    sleep (Zzz...). It does not watch what happens when the program runs.         │
-│ 2. An evil stickman charges in with a massive 70-byte attack box.                │
-│ 3. The program tries to shove 70 bytes into a small 32-byte box: char buf[32].  │
-│ 4. CRASH! The OS catches the stack corruption and executes SIGABRT.              │
-│ 5. The stickman process dies immediately. 100% Denial-of-Service.                │
+│ • An uninstrumented application executes a raw strcpy(buf, input).               │
+│ • When input length (70B) exceeds destination buffer capacity (32B), adjacent    │
+│   stack memory is overwritten.                                                   │
+│ • The operating system detects stack boundary corruption and raises SIGSEGV/     │
+│   SIGABRT, terminating the process immediately (0% Availability / Crash).        │
 └──────────────────────────────────────────────────────────────────────────────────┘
 
 ┌──────────────────────────────────────────────────────────────────────────────────┐
-│                         ACT 2: THE SELF-HEALING COMPILER                         │
+│                     SCENARIO B: SHC PROTECTED RUNTIME                            │
 ├──────────────────────────────────────────────────────────────────────────────────┤
-│ 1. The Self-Healing Compiler stays INSIDE the running binary at runtime.         │
-│ 2. It wraps every string copy with a smart bodyguard: shc_safe_strcpy().         │
-│ 3. The evil stickman charges with the 70-byte box again.                         │
-│ 4. The SHC bodyguard checks the size at the door BEFORE copying:                 │
-│    "Wait! 70 bytes > 32 bytes capacity! ACCESS DENIED!"                          │
-│ 5. The oversized write is BLOCKED in under 1 microsecond.                        │
-│ 6. Zero bytes in memory are corrupted.                                           │
-│ 7. The stickman process stays 100% alive (Exit Code: 0) and happily serves the   │
-│    next valid request!                                                           │
+│ • The SHC compiler pass automatically rewrites the call to shc_safe_strcpy().    │
+│ • The runtime security monitor evaluates: src_len + 1 > dst_capacity BEFORE copy.│
+│ • The oversized operation is rejected immediately (status: SHC_ERR_OVERFLOW).   │
+│ • Zero bytes in memory are corrupted; the destination buffer remains intact.     │
+│ • The process survives with 100% service availability and serves subsequent      │
+│   legitimate requests normally (Exit Code: 0).                                    │
 └──────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## ⚡ What is Implemented in This 25% Milestone?
+## 🛠️ What is Implemented in This 25% Milestone?
 
 This folder contains the self-contained, working milestone for the **first 25% review**:
 

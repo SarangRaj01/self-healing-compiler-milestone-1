@@ -1,0 +1,160 @@
+<svg fill="none" viewBox="0 0 950 420" width="100%" height="420" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .mono-title { font-family: 'Fira Code', 'Courier New', monospace; font-weight: 700; fill: #ffffff; letter-spacing: 1.5px; }
+      .mono-text { font-family: 'Fira Code', 'Courier New', monospace; fill: #e6edf3; }
+      .mono-sub { font-family: 'Fira Code', 'Courier New', monospace; fill: #8b949e; font-size: 11px; }
+
+      /* Keyframe animations for stickmen and state transitions */
+      @keyframes walkCycle {
+        0%, 100% { transform: translateX(0px); }
+        50% { transform: translateX(20px); }
+      }
+      @keyframes shieldPulse {
+        0%, 100% { opacity: 0.95; stroke-width: 2; }
+        50% { opacity: 0.35; stroke-width: 3.5; }
+      }
+      @keyframes statusBlink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.2; }
+      }
+      @keyframes blockWave {
+        0% { transform: translateX(0); opacity: 1; }
+        50% { transform: translateX(-10px); opacity: 0.7; }
+        100% { transform: translateX(0); opacity: 1; }
+      }
+
+      .stickman-walk { animation: walkCycle 2.4s ease-in-out infinite; }
+      .shield-glow { animation: shieldPulse 1.8s ease-in-out infinite; }
+      .blink-dot { animation: statusBlink 1.2s ease-in-out infinite; }
+      .bounce-block { animation: blockWave 2.4s ease-in-out infinite; }
+    </style>
+  </defs>
+
+  <!-- Clean Monochrome Slate Canvas -->
+  <rect width="950" height="420" rx="12" fill="#0d1117" stroke="#30363d" stroke-width="2"/>
+
+  <!-- Top Status Bar -->
+  <g transform="translate(30, 22)">
+    <circle cx="8" cy="8" r="4" fill="#ffffff" class="blink-dot"/>
+    <text x="22" y="12" class="mono-title" font-size="13">SHC RUNTIME PROTOCOL // RUNTIME BOUNDS INTERCEPTION (MONOCHROME)</text>
+    <line x1="0" y1="26" x2="890" y2="26" stroke="#30363d" stroke-width="1.2"/>
+  </g>
+
+  <!-- ==================== LEFT ARCHITECTURE: UNPROTECTED RUNTIME ==================== -->
+  <g transform="translate(35, 75)">
+    <!-- Container -->
+    <rect width="415" height="315" rx="8" fill="#161b22" stroke="#484f58" stroke-width="1.5"/>
+    <text x="20" y="30" class="mono-title" font-size="12">SCENARIO A: UNPROTECTED EXECUTION</text>
+    <text x="20" y="48" class="mono-sub">Raw strcpy() into fixed destination buffer</text>
+
+    <!-- Attacker Stickman running in with 70B block -->
+    <g transform="translate(30, 95)" class="stickman-walk">
+      <!-- Head -->
+      <circle cx="20" cy="15" r="12" stroke="#ffffff" stroke-width="1.8" fill="none"/>
+      <!-- Body -->
+      <line x1="20" y1="27" x2="20" y2="58" stroke="#ffffff" stroke-width="1.8"/>
+      <!-- Arms pushing block -->
+      <line x1="20" y1="38" x2="48" y2="38" stroke="#ffffff" stroke-width="1.8"/>
+      <!-- Legs running -->
+      <line x1="20" y1="58" x2="8" y2="84" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="20" y1="58" x2="34" y2="84" stroke="#ffffff" stroke-width="1.8"/>
+
+      <!-- 70-Byte Payload -->
+      <rect x="48" y="24" width="65" height="28" rx="3" fill="#0d1117" stroke="#ffffff" stroke-width="1.5"/>
+      <text x="80" y="42" text-anchor="middle" class="mono-text" font-size="10">70 BYTES</text>
+    </g>
+
+    <!-- Buffer Container -->
+    <g transform="translate(195, 120)">
+      <rect x="0" y="0" width="75" height="35" rx="3" fill="#0d1117" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="37" y="22" text-anchor="middle" class="mono-text" font-size="10">buf[32]</text>
+    </g>
+
+    <!-- Crash Outcome Block -->
+    <g transform="translate(290, 100)">
+      <!-- Fallen Dead Stickman -->
+      <circle cx="25" cy="40" r="9" stroke="#8b949e" stroke-width="1.5" fill="none"/>
+      <line x1="21" y1="36" x2="25" y2="40" stroke="#8b949e" stroke-width="1.2"/>
+      <line x1="25" y1="40" x2="29" y2="36" stroke="#8b949e" stroke-width="1.2"/>
+      <line x1="34" y1="40" x2="65" y2="40" stroke="#8b949e" stroke-width="1.5"/>
+      <line x1="65" y1="40" x2="76" y2="32" stroke="#8b949e" stroke-width="1.5"/>
+      <line x1="65" y1="40" x2="76" y2="48" stroke="#8b949e" stroke-width="1.5"/>
+    </g>
+
+    <!-- Bottom Status Log -->
+    <g transform="translate(18, 225)">
+      <rect width="380" height="70" rx="5" fill="#0d1117" stroke="#30363d" stroke-width="1.2"/>
+      <text x="14" y="24" class="mono-text" font-size="11">[RESULT] Memory corrupted at byte offset +33</text>
+      <text x="14" y="42" class="mono-text" font-size="11">[SIGNAL] SIGSEGV / Process Abort (Core Dumped)</text>
+      <text x="14" y="60" class="mono-sub">[SYSTEM] 0% Availability // Complete Server Downtime</text>
+    </g>
+  </g>
+
+  <!-- ==================== RIGHT ARCHITECTURE: SHC RUNTIME PROTECTED ==================== -->
+  <g transform="translate(500, 75)">
+    <!-- Container -->
+    <rect width="415" height="315" rx="8" fill="#161b22" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="20" y="30" class="mono-title" font-size="12">SCENARIO B: SHC PROTECTED RUNTIME</text>
+    <text x="20" y="48" class="mono-sub">shc_safe_strcpy() bounds evaluation before copy</text>
+
+    <!-- Attacker Stickman running in with 70B block -->
+    <g transform="translate(25, 95)" class="stickman-walk">
+      <circle cx="20" cy="15" r="12" stroke="#ffffff" stroke-width="1.8" fill="none"/>
+      <line x1="20" y1="27" x2="20" y2="58" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="20" y1="38" x2="48" y2="38" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="20" y1="58" x2="8" y2="84" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="20" y1="58" x2="34" y2="84" stroke="#ffffff" stroke-width="1.8"/>
+
+      <rect x="48" y="24" width="65" height="28" rx="3" fill="#0d1117" stroke="#ffffff" stroke-width="1.5"/>
+      <text x="80" y="42" text-anchor="middle" class="mono-text" font-size="10">70 BYTES</text>
+    </g>
+
+    <!-- SHC Guardian Stickman with Shield Barrier -->
+    <g transform="translate(170, 95)">
+      <!-- Shield Barrier -->
+      <path d="M 20 8 Q 40 8 40 38 Q 40 75 20 90 Q 0 75 0 38 Q 0 8 20 8 Z" fill="#0d1117" stroke="#ffffff" stroke-width="2" class="shield-glow"/>
+      <text x="20" y="52" text-anchor="middle" class="mono-text" font-size="8.5" font-weight="bold">SHC</text>
+
+      <!-- Guardian Stickman standing behind shield -->
+      <g transform="translate(45, 0)">
+        <circle cx="16" cy="15" r="12" stroke="#ffffff" stroke-width="1.8" fill="none"/>
+        <line x1="16" y1="27" x2="16" y2="58" stroke="#ffffff" stroke-width="1.8"/>
+        <!-- Arm holding shield -->
+        <line x1="16" y1="38" x2="-5" y2="44" stroke="#ffffff" stroke-width="1.8"/>
+        <!-- Arm on hip -->
+        <line x1="16" y1="38" x2="30" y2="48" stroke="#ffffff" stroke-width="1.8"/>
+        <!-- Legs standing firm -->
+        <line x1="16" y1="58" x2="6" y2="84" stroke="#ffffff" stroke-width="1.8"/>
+        <line x1="16" y1="58" x2="26" y2="84" stroke="#ffffff" stroke-width="1.8"/>
+      </g>
+    </g>
+
+    <!-- Intact Destination Buffer -->
+    <g transform="translate(290, 120)">
+      <rect x="0" y="0" width="75" height="35" rx="3" fill="#0d1117" stroke="#ffffff" stroke-width="1.8"/>
+      <text x="37" y="16" text-anchor="middle" class="mono-text" font-size="9.5">buf[32]</text>
+      <text x="37" y="28" text-anchor="middle" class="mono-sub" font-size="8">UNTOUCHED</text>
+    </g>
+
+    <!-- Happy/Surviving Stickman -->
+    <g transform="translate(370, 95)">
+      <circle cx="15" cy="15" r="10" stroke="#ffffff" stroke-width="1.8" fill="none"/>
+      <line x1="15" y1="25" x2="15" y2="55" stroke="#ffffff" stroke-width="1.8"/>
+      <!-- Cheering arms up -->
+      <line x1="15" y1="34" x2="4" y2="20" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="15" y1="34" x2="26" y2="20" stroke="#ffffff" stroke-width="1.8"/>
+      <!-- Legs -->
+      <line x1="15" y1="55" x2="6" y2="80" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="15" y1="55" x2="24" y2="80" stroke="#ffffff" stroke-width="1.8"/>
+    </g>
+
+    <!-- Bottom Status Log -->
+    <g transform="translate(18, 225)">
+      <rect width="380" height="70" rx="5" fill="#0d1117" stroke="#30363d" stroke-width="1.2"/>
+      <text x="14" y="24" class="mono-text" font-size="11">[ACTION] Pre-copy inspection: 70 &gt; 32 detected</text>
+      <text x="14" y="42" class="mono-text" font-size="11">[STATUS] Write blocked // Zero memory corruption</text>
+      <text x="14" y="60" class="mono-sub">[SYSTEM] 100% Availability // Process alive (Exit: 0)</text>
+    </g>
+  </g>
+</svg>
