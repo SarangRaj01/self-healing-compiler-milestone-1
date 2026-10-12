@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🛡️ Self-Healing Compiler (SHC) — Milestone 1 (25% Prototype)
+# 🛡️ Self-Healing Compiler (SHC)
 ### *Runtime Memory Bounds Protection & Zero-Downtime Resilience*
 
 [![Language](https://img.shields.io/badge/Language-C11%20%7C%20Python%203.14-000000?style=for-the-badge&logo=c&logoColor=white)](https://en.wikipedia.org/wiki/C11_(C_revision))
@@ -11,15 +11,13 @@
 
 <br/>
 
-**BCSE307P — Compiler Design Lab Capstone (First 25% Deliverable)**  
+**BCSE307P — Compiler Design Lab Capstone**  
 *Vellore Institute of Technology (VIT)*
 
 <br/>
 
 <!-- ==================== CLEAN MONOCHROME STICKMAN ANIMATION ==================== -->
-<p align="center">
-  <img src="assets/stickman_clean.svg" alt="SHC Runtime Protocol: Stickman Bounds Verification Animation" width="100%" />
-</p>
+
 
 </div>
 
@@ -52,7 +50,7 @@
 
 ---
 
-## 🛠️ What is Implemented in This 25% Milestone?
+## 🛠️ What is Implemented
 
 This folder contains the self-contained, working milestone for the **first 25% review**:
 
